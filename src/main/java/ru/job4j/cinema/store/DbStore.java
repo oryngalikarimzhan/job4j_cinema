@@ -12,10 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class DbStore implements Store {
 
@@ -69,12 +66,10 @@ public class DbStore implements Store {
     }
 
     @Override
-    public boolean save(Ticket ticket) {
-        boolean rsl = false;
+    public Optional<Ticket> save(Ticket ticket) {
+        Optional<Ticket> rsl = Optional.empty();
         if (ticket.getId() == 0) {
-            if (create(ticket).getId() != 0) {
-                rsl = true;
-            }
+            rsl = Optional.of(create(ticket));
         }
         return rsl;
     }
@@ -97,6 +92,7 @@ public class DbStore implements Store {
             }
         } catch (SQLException e) {
             LOG.error("Exception while executing sql query using jdbc", e);
+            return null;
         }
         return ticket;
     }
@@ -223,17 +219,5 @@ public class DbStore implements Store {
             }
         }
         return account;
-    }
-}
-
-class Main {
-    public static void main(String[] args) {
-        DbStore.instOf().save(new Account(0, "aaa", "111"));
-        System.out.println(DbStore.instOf().findAccountByPhone("111"));
-        DbStore.instOf().save(new Ticket(0, 1, 1, 1, 1));
-        DbStore.instOf().save(new Ticket(0, 1, 2, 1, 1));
-        DbStore.instOf().save(new Ticket(0, 1, 3, 1, 1));
-
-        DbStore.instOf().findAllTicketsBySession(1).forEach(System.out::println);
     }
 }

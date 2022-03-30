@@ -27,32 +27,16 @@ public class Ticket {
         return sessionId;
     }
 
-    public void setSessionId(int sessionId) {
-        this.sessionId = sessionId;
-    }
-
     public int getRow() {
         return row;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
     }
 
     public int getCell() {
         return cell;
     }
 
-    public void setCell(int cell) {
-        this.cell = cell;
-    }
-
     public int getAccountId() {
         return accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
     }
 
     @Override

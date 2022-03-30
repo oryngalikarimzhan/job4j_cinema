@@ -39,13 +39,12 @@ public class HallServlet extends HttpServlet {
         int row = Integer.parseInt(req.getParameter("row"));
         int cell = Integer.parseInt(req.getParameter("cell"));
 
-
         Account account = DbStore.instOf().findAccountByPhone(phone);
         if (account == null) {
             DbStore.instOf().save(new Account(0, name, phone));
             account = DbStore.instOf().findAccountByPhone(req.getParameter("phone"));
         }
-        String msg = DbStore.instOf().save(new Ticket(0, sessionId, row, cell, account.getId()))
+        String msg = DbStore.instOf().save(new Ticket(0, sessionId, row, cell, account.getId())).isPresent()
                 ? "Спасибо за покупку, " + name
                 : "Ошибка повторите попытку";
         resp.setContentType("text/plain");
